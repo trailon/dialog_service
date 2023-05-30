@@ -162,10 +162,9 @@ class PullSheetPickerWidgetState extends State<PullSheetPickerWidget> {
                                                   .buttonTheme
                                                   .colorScheme!
                                                   .background,
-                                              onPressed: () {
-                                                OverlayServices
-                                                    .dismissOverlay();
-                                              },
+                                              onPressed:
+                                                  widget.onEmptySpaceTabbed
+                                                      as void Function()?,
                                             ),
                                             padding: EdgeInsets.only(
                                                 top: 12, left: 12),
