@@ -1,8 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import '../widgets/services/overlay_services.dart';
+
 enum MenuMode { DrawerMode, PullMenuMode }
+
 enum _FlingGestureKind { none, fling_down, fling_up }
+
 const double _kMinFlingVelocity = 700.0;
 const _kGreyOpacity = Color.fromRGBO(129, 129, 129, 0.5);
 const _kTransitionDuration = Duration(milliseconds: 300);
@@ -28,6 +32,7 @@ class PullSheetPickerWidget extends StatefulWidget {
 
   final String? title;
   final bool showTitle;
+  final bool showBackButton;
 
   final Function? onEmptySpaceTabbed;
   final MenuMode menuMode;
@@ -39,6 +44,7 @@ class PullSheetPickerWidget extends StatefulWidget {
     this.context,
     this.child,
     this.title,
+    this.showBackButton = false,
     this.showTitle = false,
     this.onEmptySpaceTabbed,
     this.menuMode = MenuMode.PullMenuMode,
@@ -146,15 +152,37 @@ class PullSheetPickerWidgetState extends State<PullSheetPickerWidget> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
                           widget.showTitle
-                              ? Padding(
-                                  child: Text(
-                                    widget.title!,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16,
+                              ? Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    widget.showBackButton
+                                        ? Padding(
+                                            child: BackButton(
+                                              color: Theme.of(context)
+                                                  .buttonTheme
+                                                  .colorScheme!
+                                                  .background,
+                                              onPressed: () {
+                                                OverlayServices
+                                                    .dismissOverlay();
+                                              },
+                                            ),
+                                            padding: EdgeInsets.only(
+                                                top: 12, left: 12),
+                                          )
+                                        : SizedBox.shrink(),
+                                    Padding(
+                                      child: Text(
+                                        widget.title!,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                      padding:
+                                          EdgeInsets.only(top: 12, left: 12),
                                     ),
-                                  ),
-                                  padding: EdgeInsets.only(top: 12, left: 12),
+                                  ],
                                 )
                               : SizedBox(height: 0, width: 0),
                           Expanded(
@@ -182,7 +210,6 @@ class PullSheetPickerWidgetState extends State<PullSheetPickerWidget> {
 }
 
 class _CustomScrollBehavior extends ScrollBehavior {
-  @override
   Widget buildViewportChrome(
       BuildContext context, Widget child, AxisDirection axisDirection) {
     return child;

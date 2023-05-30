@@ -7,7 +7,7 @@ class OverlayServices {
        BuildContext context, Function(BuildContext) builder) {
     _overlayEntry =
         OverlayEntry(builder: builder as Widget Function(BuildContext));
-    Overlay.of(context)!.insert(_overlayEntry!);
+    Overlay.of(context).insert(_overlayEntry!);
   }
 
   static void dismissOverlay() {
