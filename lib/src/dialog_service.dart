@@ -83,6 +83,7 @@ class DialogService {
     BuildContext context, {
     required Widget child,
     bool showTitle = false,
+    bool showBackButton = false,
     double minHeightApp = 240,
     String? titleText,
   }) {
@@ -92,6 +93,7 @@ class DialogService {
         title: titleText,
         minHeightApp: minHeightApp,
         showTitle: showTitle,
+        showBackButton: showBackButton,
         child: child,
         onEmptySpaceTabbed: () {
           OverlayServices.dismissOverlay();
